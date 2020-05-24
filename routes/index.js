@@ -3,6 +3,7 @@ var router = express.Router();
 const Sequelize = require('sequelize');
 
 router.get('/', async function(req, res, next) {
+  console.log(process.env);
   const databaseDialect = process.env.DATABASE_DIALECT || 'postgres';
   const databaseHost = process.env.DATABASE_HOST;
   const databasePort = process.env.DATABASE_PORT || 5432;
