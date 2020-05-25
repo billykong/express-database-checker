@@ -15,3 +15,8 @@ DATABASE_PORT
 ## To build docker image for this app
 `$ docker build -t billykong/express-database-checker .`
 `$ docker push billykong/express-database-checker:latest`
+
+
+## TODO
+1. better use of `Promise.race` in `routes/index.js`
+2. Make timeout configurable through environment variable.

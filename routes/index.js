@@ -3,7 +3,7 @@ var router = express.Router();
 const Sequelize = require('sequelize');
 
 router.get('/', async function(req, res, next) {
-  console.log(process.env);
+  // console.log(process.env);
   const databaseDialect = process.env.DATABASE_DIALECT || 'postgres';
   const databaseHost = process.env.DATABASE_HOST;
   const databasePort = process.env.DATABASE_PORT || 5432;
@@ -12,16 +12,26 @@ router.get('/', async function(req, res, next) {
   const databasePassword = process.env.DATABASE_PASSWORD;
   const databaseConnectionString = `${databaseDialect}://${databaseUsername}:${databasePassword}@${databaseHost}:${databasePort}/${databaseName}`; 
   const sequelize = new Sequelize(databaseConnectionString);
-  var connected;
+
   try {
-    await sequelize.authenticate();
-    connected = true;
-    console.log('Connection has been established successfully.');
+    Promise.race([
+      new Promise((done, _) => {
+        sequelize.authenticate()
+        .then(() => {
+          console.log('Connection has been established successfully.');
+          res.render('index', { title: 'Express Database Checker', databaseConnected: true });
+        })
+      }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000))
+    ]).catch((error) => {
+      if(!res.headersSent) {
+        console.error('Unable to connect to the database:', error);
+        res.render('index', { title: 'Express Database Checker', databaseConnected: false });
+      }
+    });
   } catch (error) {
-    connected = false;
-    console.error('Unable to connect to the database:', error);
+    console.error('Error on timeout racing:', error);
   }
-  res.render('index', { title: 'Express', databaseConnected: connected });
 });
 
 module.exports = router;
