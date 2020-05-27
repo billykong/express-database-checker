@@ -11,6 +11,7 @@ router.get('/', async function(req, res, next) {
   const databaseUsername = process.env.DATABASE_USERNAME;
   const databasePassword = process.env.DATABASE_PASSWORD;
   const databaseConnectionString = `${databaseDialect}://${databaseUsername}:${databasePassword}@${databaseHost}:${databasePort}/${databaseName}`; 
+  const databaseTimeout = process.env.DATABASE_TIMEOUT || 5000;
   const sequelize = new Sequelize(databaseConnectionString);
 
   try {
@@ -22,7 +23,7 @@ router.get('/', async function(req, res, next) {
           res.render('index', { title: 'Express Database Checker', databaseConnected: true });
         })
       }),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000))
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), databaseTimeout))
     ]).catch((error) => {
       if(!res.headersSent) {
         console.error('Unable to connect to the database:', error);
