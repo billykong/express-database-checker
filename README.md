@@ -25,6 +25,6 @@ DATABASE_TIMEOUT=5000 # optional: default is 5000ms
 2. `$ docker run -p80:80 billykong/express-database-checker`
 
 ## To build docker image for this app
-`$ docker build -t billykong/express-database-checker .`
+`$ docker build -t billykong/express-database-checker .`  
 `$ docker push billykong/express-database-checker:latest`
 
