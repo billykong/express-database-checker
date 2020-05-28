@@ -11,7 +11,7 @@ router.get('/', async function(req, res, next) {
   const databaseUsername = process.env.DATABASE_USERNAME;
   const databasePassword = process.env.DATABASE_PASSWORD;
   const databaseConnectionString = `${databaseDialect}://${databaseUsername}:${databasePassword}@${databaseHost}:${databasePort}/${databaseName}`; 
-  const databaseTimeout = process.env.DATABASE_TIMEOUT || 5000;
+  const databaseTimeout = process.env.DATABASE_TIMEOUT || 3000;
   const sequelize = new Sequelize(databaseConnectionString);
 
   try {

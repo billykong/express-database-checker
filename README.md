@@ -17,7 +17,7 @@ DATABASE_USERNAME=billykong
 DATABASE_PASSWORD=xxxxxx
 DATABASE_DIALECT=postgres # optional: default is postgres
 DATABASE_PORT=5432 # optional: default is 5432
-DATABASE_TIMEOUT=5000 # optional: default is 5000ms
+DATABASE_TIMEOUT=3000 # optional: default is 3000ms
 ```
 
 ### DockerHub
